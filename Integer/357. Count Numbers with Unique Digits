@@ -7,9 +7,9 @@ public:
             return 10;
         int val=9;
         int res=10;
-        for(int i=2;i<=n;i++)
+        for(int i=1;i<n;i++)
         {
-            val=val*(11-i);
+            val=val*(10-i);
             res=res+val;
         }
         return res;
