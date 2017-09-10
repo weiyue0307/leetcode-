@@ -1,0 +1,38 @@
+class Solution {
+public:
+    string decodeString(string s) {
+        int k=0;
+        return dfs(s,k);
+    }
+    string dfs(string s,int &k)
+    {
+        string res;
+        int cnt=0;
+        while(k<s.length())
+        {
+            if(isdigit(s[k]))
+            {
+                cnt=cnt*10+(s[k++]-'0');
+            }
+            else if(s[k]=='[')
+            {
+                string tmp=dfs(s,++k);
+                for(int i=0;i<cnt;i++)
+                {
+                    res=res+tmp;
+                }
+                cnt=0;
+            }
+            else if(s[k]==']')
+            {
+                k++;
+                return res;
+            }
+            else
+            {
+                res=res+s[k++];
+            }     
+        }
+        return res;
+    }
+};
