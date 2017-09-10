@@ -1,0 +1,44 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        vector<TreeNode *>res;
+        if(n<=0)
+            return res;
+        else
+            return helper(1,n);
+    }
+    vector<TreeNode*>helper(int start,int end)
+    {
+        vector<TreeNode *>res;
+        if(start>end)
+        {
+            res.push_back(NULL);//如果此处不加该句，直接返回res的话，那么每次返回的left和right都是size为0的向量，下面的双重循环都不能执行，所以一直返回的都会是NULL空集，里面真的什么都没有的空集，而不是有NULL的“空集”，所以必须有这句话，才会有结果。
+            return res;
+        } 
+        for(int i=start;i<=end;i++)
+        {
+            vector<TreeNode*>left=helper(start,i-1);
+            vector<TreeNode*>right=helper(i+1,end);
+            for(int j=0;j<left.size();j++)
+            {
+                for(int k=0;k<right.size();k++)
+                {
+                    TreeNode *node=new TreeNode(i);
+                    node->left=left[j];
+                    node->right=right[k];
+                    res.push_back(node);
+                }
+            }
+        }
+        return res;
+    }
+};
