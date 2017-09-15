@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            sum+=nums[i];
+        }
+        if(sum%2)
+            return false;
+        else
+        {
+            int len=nums.size();
+            int n=sum/2;
+            vector<vector<int>>f(len,(vector<int>(n+1,0)));
+            for(int i=nums[0];i<=n;i++)
+            {
+                f[0][i]=nums[0];
+            }
+            for(int i=1;i<len;i++)
+                for(int j=nums[i];j<=n;j++)
+                    f[i][j]=max(f[i-1][j],f[i-1][j-nums[i]]+nums[i]);
+            if(f[len-1][n]==n)
+                return true;
+            else
+                return false;
+        }
+    }
+};
