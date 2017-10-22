@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+        if(numCourses==0)
+            return false;
+        vector<int>indegree(numCourses,0);
+        unordered_map<int, multiset<int>>hash;
+        for(auto val:prerequisites)
+        {
+            indegree[val.first]++;
+            hash[val.second].insert(val.first);
+        }
+        for(int i=0,j;i<numCourses;i++)
+        {
+            for(j=0;j<numCourses;j++)
+                if(indegree[j]==0)
+                    break;
+            if(j==numCourses)
+                return false;
+            indegree[j]--;     //消除掉j入度为0的痕迹，使它变为负数，这样下一次检测就不为0了
+            for(auto val:hash[j])
+            {
+                indegree[val]--;
+            }
+        }
+        return true;
+    }
+};
